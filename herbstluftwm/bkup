@@ -1,0 +1,76 @@
+#!/bin/bash
+
+function hc() {
+    herbstclient "$@"
+}
+
+# keybindings
+Mod=Mod4
+hc keybind $Mod-Shift-q quit
+hc keybind $Mod-i reload
+hc keybind $Mod-x close
+hc keybind $Mod-Return spawn gnome-terminal
+hc keybind $Mod-p spawn dmenu_run  -i -fn -*-bitocra -nb '#1e1e1e' -nf '#888888' -sb '#FFFF84' -sf '#1e1e1e'
+hc keybind $Mod-f spawn urxvtc -tr -sh 20 -fg rgb:bb/bb/bb
+
+# tags
+hc rename default 1 || true
+for i in {1..9} ; do
+    hc add "$i"
+    hc keybind "$Mod-$i" use "$i"
+    hc keybind "$Mod-Shift-$i" move "$i"
+#commands dealing with spaces and borders
+    hc keybind "$Mod-Alt-$i" spawn ~/.config/herbstluftwm/mindthegap "$(($i*2))"
+done
+hc keybind $Mod-Alt-0 spawn ~/.config/herbstluftwm/mindthegap 0
+hc keybind $Mod-0 spawn ~/.config/herbstluftwm/autogap
+
+
+# layouting
+hc keybind $Mod-r remove
+hc keybind $Mod-space cycle_layout 1
+hc keybind $Mod-Alt-space cycle_layout -1
+hc keybind $Mod-u split vertical 0.5
+hc keybind $Mod-o split horizontal 0.5
+hc keybind $Mod-s spawn ~/.config/herbstluftwm/float
+hc keybind $Mod-d spawn ~/.config/herbstluftwm/dzen
+hc keybind $Mod-m load '(split horizontal:0.710000:0 (split vertical:0.820000:0 (clients horizontal:1 0x100001e 0x801fa3) (clients horizontal:0)) (clients vertical:0 0x801ff3 0x80207d))'
+hc keybind $Mod-v spawn .config/herbstluftwm/vidmode
+
+# resizing
+RESIZESTEP=0.02
+hc keybind $Mod-Control-h resize left +$RESIZESTEP
+hc keybind $Mod-Control-j resize down +$RESIZESTEP
+hc keybind $Mod-Control-k resize up +$RESIZESTEP
+hc keybind $Mod-Control-l resize right +$RESIZESTEP
+
+# mouse
+hc mousebind $Mod-Button1 move
+hc mousebind $Mod-Button2 zoom
+hc mousebind $Mod-Button3 resize
+
+# focus
+hc keybind $Mod-BackSpace   cycle_monitor
+hc keybind $Mod-Tab         cycle_all +1
+hc keybind $Mod-Shift-Tab   cycle_all -1
+hc keybind $Mod-c cycle
+hc keybind $Mod-h focus left
+hc keybind $Mod-j focus down
+hc keybind $Mod-k focus up
+hc keybind $Mod-l focus right
+hc keybind $Mod-Shift-h shift left
+hc keybind $Mod-Shift-j shift down
+hc keybind $Mod-Shift-k shift up
+hc keybind $Mod-Shift-l shift right
+
+# defaults
+hc set frame_border_active_color '#101010'
+hc set frame_border_normal_color '#101010'
+hc set frame_bg_normal_color '#1e1e1e'
+hc set frame_bg_active_color '#000000'
+hc set window_border_width 1
+hc set window_border_active_color '#666666'
+hc set focus_follows_shift 1
+hc set snap_distance 8
+echo 1 > ~/.config/herbstluftwm/dz
+~/.config/herbstluftwm/mindthegap $(cat ~/.config/herbstluftwm/gap)
