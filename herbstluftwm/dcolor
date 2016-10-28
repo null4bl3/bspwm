@@ -1,9 +1,0 @@
-#!/bin/bash
-color=`cat ~/.config/herbstluftwm/dcolor`
-if [ $color = 1 ];then
-	conky|dzen2 -fn '-*-bitocra' -bg '#1e1e1e' -fg '#888888'&
-elif [ $color = 2 ];then
-	conky|dzen2 -fn '-*-bitocra' -bg '#101010' -fg '#888888'&
-elif [ $color = 3 ];then
-	conky|dzen2 -fn '-*-bitocra' -bg '#000000' -fg '#1e1e1e'&
-fi
